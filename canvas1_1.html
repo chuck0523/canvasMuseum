@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canvas practise</title>
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+      const NUM = 80;
+      const WIDTH = 300;
+      const HEIGHT = 400;
+      var swingX = new Array(NUM);
+      var swingY = new Array(NUM);
+      var locX = new Array(NUM);
+      var locY = new Array(NUM);
+      var radius = new Array(NUM);
+      var r = new Array(NUM);
+      var g = new Array(NUM);
+      var b = new Array(NUM);
+      var ctx;
+      
+      var cl = function(x){console.log(x)}
+      function init(){
+        var canvas = document.getElementById('greatCanvas');
+        if(canvas.getContext) { //Does canvas work only when native js???
+          ctx = canvas.getContext('2d');
+          for(var i = 0; i < NUM; i++) {
+            swingX[i] = Math.random() * 5.0 - 2.5;
+            swingY[i] = Math.random() * 5.0 - 2.5;
+            locX[i] = WIDTH / 2;
+            locY[i] = HEIGHT / 2;
+            radius[i] = Math.random() * 10.0 + 10.0;
+            r[i] = Math.floor(Math.random() * 500);
+            g[i] = Math.floor(Math.random() * 500);
+            b[i] = Math.floor(Math.random() * 500);
+          }
+          setInterval(draw,40);
+        }
+      }
+      
+      function draw(){
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgb(255,255,255)"; 
+        //bgColor of canvas is originally black!! Why???
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+	      ctx.globalCompositeOperation = "";  
+        for(var i = 0; i < NUM; i++){
+    	    
+          locX[i] += swingX[i];   
+    	    locY[i] += swingY[i];
+	        
+        if(locX[i] < 0 || locX[i] > WIDTH){
+		      locX[i] = WIDTH/2;
+          locY[i] = WIDTH/2;
+	      }
+  	    if(locY[i] < 0 || locY[i] > HEIGHT){
+	        locX[i] = WIDTH/2;
+          locY[i] = WIDTH/2;
+	      }
+	    
+  	    ctx.beginPath();
+	      ctx.fillStyle = 'rgba(' + r[i] + ',' + g[i] + ',' + b[i] + ',0.7)';
+        ctx.arc(locX[i], locY[i], radius[i], 0, Math.PI*2.0, true);
+        ctx.fill();
+        }
+      }
+    </script>
+    <style type="text/css">
+      canvas { 
+        background-color:#fff;
+        border: 10px solid #333;
+        border-top:50px solid #333;
+        border-bottom:70px solid #333;
+        border-radius:20px;
+      }
+    </style>
+  </head>
+  <body onload="init();">
+    <canvas id="greatCanvas" width="300" height="400"></canvas>
+  </body>
+</html>

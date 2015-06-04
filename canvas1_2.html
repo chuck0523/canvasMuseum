@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canvas practise</title>
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+      const NUM = 40;
+      const WIDTH = 300;
+      const HEIGHT = 400;
+      const RADIUS = 100;
+      const KAKUDO = 0;
+      var swingX = new Array(NUM);
+      var swingY = new Array(NUM);
+      var locX = new Array(NUM);
+      var locY = new Array(NUM);
+      var radius = new Array(NUM);
+      var opacity = new Array(NUM);
+      var r = new Array(NUM);
+      var g = new Array(NUM);
+      var b = new Array(NUM);
+      var ctx;
+      
+      var cl = function(x){console.log(x)}
+      function init(){
+        var canvas = document.getElementById('greatCanvas');
+        if(canvas.getContext) { //Does canvas work only when native js???
+          ctx = canvas.getContext('2d');
+          for(var i = 0; i < NUM; i++) {
+            swingX[i] = Math.random() * 5.0 - 2.5;
+            swingY[i] = Math.random() * 5.0 - 2.5;
+            locX[i] = Math.random()*301;
+            locY[i] = Math.random()*401;
+            radius[i] = Math.random() * 10.0 + 10.0;
+            opacity[i] = 0.5;
+            r[i] = Math.floor(Math.random() * 200 +100);
+            g[i] = Math.floor(Math.random() * 150  +50);
+            b[i] = Math.floor(Math.random() * 150 + 50);
+          }
+          setInterval(draw,40);
+        }
+      }
+      var kakudo = 0;
+      var incre = 0;
+      function draw(){
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgb(11,11,11)"; 
+        //bgColor of canvas is originally black!! Why???
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+	      ctx.globalCompositeOperation = "";  
+        for(var i = 0; i < NUM; i++){
+          
+          radius[i] += Math.random()*2;
+        if(radius[i] > 20 && radius[i] <= 100){
+          opacity[i] -= Math.random()*0.02;
+        } else if(radius[i] > 70){
+          radius[i] = 1;
+          opacity[i] = 0.5;
+          locX[i] = Math.random()*301;
+          locY[i] = Math.random()*401;
+        }
+  	    ctx.beginPath();
+        var grad  = ctx.createRadialGradient(70,70,20,70,70,70);
+        grad.addColorStop(0,'rgb(11,130,230)');      
+        grad.addColorStop(0.5,'rgb(11,130,230)'); 
+        grad.addColorStop(1,'rgba(' + r[i] + ',' + g[i] + ',' + b[i] + ',' +opacity[i] +')');     
+	      ctx.fillStyle = 'rgba(' + r[i] + ',' + g[i] + ',' + b[i] + ',' +opacity[i] +')';
+        ctx.arc(locX[i], locY[i], radius[i], 0, Math.PI*2.0, true);
+        ctx.fill();
+        }
+      }
+    </script>
+    <style type="text/css">
+      canvas { 
+        background-color:#fff;
+        border: 10px solid #333;
+        border-top:50px solid #333;
+        border-bottom:70px solid #333;
+        border-radius:20px;
+      }
+    </style>
+  </head>
+  <body onload="init();">
+    <canvas id="greatCanvas" width="300" height="400"></canvas>
+  </body>
+</html>

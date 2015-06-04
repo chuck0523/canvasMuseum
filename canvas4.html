@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canvas tutorial template</title>
+    <script src="jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">    
+    const NUM = 500;
+    const WIDTH = 900;
+    const HEIGHT = 650;
+    var speedX = new Array(NUM);
+    var speedY = new Array(NUM);
+    var locX = new Array(NUM);
+    var locY = new Array(NUM);
+    var radius = new Array(NUM);
+    var r =  new Array(NUM);
+    var g =  new Array(NUM);
+    var b =  new Array(NUM);
+    var ctx;
+
+      function init(){
+	var canvas = document.getElementById('tutorial');
+        if (canvas.getContext){
+            ctx = canvas.getContext('2d');
+	    for(var i = 0; i < NUM; i++){
+		speedX[i] = Math.random() * 8.0 - 4.0;
+		speedY[i] = Math.random() * 9.0 - 4.0;
+		locX[i] = WIDTH-200;
+		locY[i] = HEIGHT/2;
+		radius[i] = Math.random() * 8.0 + 1.0;
+		r[i] = Math.floor(Math.random() * 30);
+		g[i] = Math.floor(Math.random() * 30);
+		b[i] = Math.floor(Math.random() * 10)+240;
+	    }
+          
+	    setInterval(draw, 13);
+	}
+    }
+
+    function draw(){
+	ctx.globalCompositeOperation = "source-over";
+	ctx.fillStyle = "rgba(8,8,10,0.01)";
+	ctx.fillRect(0, 0, WIDTH, HEIGHT);
+	//ctx.globalCompositeOperation = "lighter";
+	for(var i = 0; i < NUM; i++){
+	    //位置を更新
+    
+	    locX[i] += speedX[i]-5;
+	    locY[i] += speedY[i]+0.9;
+	    
+	    if(locX[i] < 0 || locX[i] > WIDTH){
+		locX[i]=WIDTH-200,locY[i]=HEIGHT/2;
+	    }
+
+	    if(locY[i] < 0 || locY[i] > HEIGHT){
+		locX[i]=WIDTH-200,locY[i]=HEIGHT/2;
+	    }
+	  
+	    //更新した座標で円を描く
+	    ctx.beginPath();
+      ctx.fillStyle = 'rgb(' + r[i] + ',' + g[i] + ',' + b[i] + ')';
+    
+            ctx.arc(locX[i], locY[i], radius[i], 0, Math.PI*2.0, true);
+            ctx.fill();
+	}
+    }
+    </script>
+    <style type="text/css">
+      canvas { background-color:#fff; border: 1px solid #999;z-index:1; }
+      #statue{
+        position:absolute;
+        top:200px;
+        left:1000px;
+        width:100px;
+        height:300px;
+        z-index:999;
+      }
+    </style>
+  </head>
+  <body onload="init();">
+    <img id="statue" src="decorationPlant01.png">
+    <canvas id="tutorial" width="900" height="650" onclick="changeDir();"></canvas>
+  </body>
+</html>
