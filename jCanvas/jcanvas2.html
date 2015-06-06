@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>jCanvasの練習</title>
+	<script src="jquery.min.js"></script>
+	<script src='jcanvas.min.js'></script>
+</head>
+<body>
+<canvas width="300" height="300"></canvas>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<script>
+$.jCanvas.extend({
+  name: 'pluginName',
+  props: {
+    prop: true
+  },
+  fn: function(ctx, params) {
+    // Your code here
+  }
+});
+
+// Create a drawHeart() method
+$.jCanvas.extend({
+  name: 'drawHeart',
+  type: 'heart',
+  props: {},
+  fn: function(ctx, params) {
+    // Just to keep our lines short
+    var p = params;
+    // Draw heart
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y + p.radius);
+    // Left side of heart
+    ctx.quadraticCurveTo(
+      p.x - (p.radius * 2),
+      p.y - (p.radius * 2),
+      p.x,
+      p.y - (p.radius / 1.5)
+    );
+    // Right side of heart
+    ctx.quadraticCurveTo(
+      p.x + (p.radius * 2),
+      p.y - (p.radius * 2),
+      p.x,
+      p.y + p.radius
+    );
+    // Call the detectEvents() function to enable jCanvas events
+    // Be sure to pass it these arguments, too!
+    $.jCanvas.detectEvents(this, ctx, p);
+    // Call the closePath() functions to fill, stroke, and close the path
+    // This function also enables masking support and events
+    // It accepts the same arguments as detectEvents()    
+    $.jCanvas.closePath(this, ctx, p);
+  }
+});
+	//how easy!!
+	$('canvas').drawHeart({
+		layer		: true,
+		draggable	: true,
+		fillStyle	: '#c33',
+		radius		: 50,
+		x			: 150,
+		y			: 130
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>jCanvasの練習</title>
+	<script src="jquery.min.js"></script>
+	<script src='jcanvas.min.js'></script>
+</head>
+<body>
+<canvas width="300" height="300"></canvas>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<script>
+  var centCanvas = function(){
+    var w = $(window).width(),
+        h = $(window).height(),
+        cw = $('canvas').outerWidth(),
+        ch = $('canvas').outerHeight();
+        cl = (w-cw)/2, ct = (h-ch)/2;
+    $('canvas').css({'top':ct,'left':cl});
+  }
+  centCanvas();
+  var canvasStyle = {
+    'position'        : 'absolute',
+    'background-color': '#ccc'
+  }
+  $('canvas').css(canvasStyle);
+
+  $('canvas').drawText({
+    fillStyle   : '#5cc',
+    strokeStyle : '#599',
+    strokeWidth : 2,
+    x           : 150,
+    y           : 100,
+    fontSize    : 40,
+    fontFamily  : 'Verdana, sans-serif',
+    text        : 'Hello Canvas!'
+  });
+  $(window).resize(function(){
+    centCanvas();
+  });
+</script>
+</body>
+</html>

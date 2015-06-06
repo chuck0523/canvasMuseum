@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>jCanvasの練習</title>
+	<script src="jquery.min.js"></script>
+	<script src='jcanvas.min.js'></script>
+</head>
+<body>
+<canvas width="300" height="150"></canvas>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<script>
+	//how easy!!
+	$('canvas').drawArc({
+		fillStyle	: 'black',
+		//this is measured in pixels
+		x			: 100,
+		y			: 100,
+		radius		: 50
+	//can chain
+	}).drawArc({
+		fillStyle	: '#36b',
+		x			: 300,
+		y			: 150,
+		radius		: 50
+	});
+</script>
+</body>
+</html>
